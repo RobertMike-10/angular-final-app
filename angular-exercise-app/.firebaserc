@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "fitness-app-c6d68": {
+      "hosting": {
+        "angular-exercise-app": [
+          "fitness-app-c6d68"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "fitness-app-c6d68"
+  }
+}
