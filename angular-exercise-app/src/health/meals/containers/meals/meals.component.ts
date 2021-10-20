@@ -52,6 +52,7 @@ export class MealsComponent implements OnInit { //, OnDestroy
     
     this.meals$ = this.store.select<Meal[]>('meals'); //readed from the store as observable
     this.subscription = this.mealsService.meals$.subscribe();
+   
   }
 
   ngOnDestroy(){

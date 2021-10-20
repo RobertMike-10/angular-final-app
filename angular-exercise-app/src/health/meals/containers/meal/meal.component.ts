@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { Meal, MealsService } from '../../../shared/services/meals/meals.service';
 
@@ -11,25 +13,60 @@ import { Meal, MealsService } from '../../../shared/services/meals/meals.service
       <div class="meal__title">
         <h1>
           <img src="./assets/img/food.svg">
-          <span>Create meal</span>
+          <span *ngIf="meal$ | async as meal; else title;">
+          {{meal.name? 'Edit' :'Create'}} meal</span>
+          <ng-template #title>
+           Loading...
+          </ng-template>
         </h1>
       </div>
-      <div>
+      <div *ngIf="meal$|aync as meal; else loading;">
         <meal-form
-          (create)="addMeal($event)">
+          [meal] ="meal"
+          (create)="addMeal($event)"
+          (update)="updateMeal($event)"
+          (remove)="removeMeal($event)">
         </meal-form>
       </div>
+      <ng-template #loading>
+      <div class="message">
+        <img src="/assets/img/loading.svg">
+         Fetching meal...
+       </div>
+      </ng-template>
     </div>
   `
 })
-export class MealComponent {
+export class MealComponent implements OnInit, OnDestroy{
   
+  meal$!:Observable<any>;
+  subscription!:Subscription;
+
   constructor(private mealsService: MealsService,
               private router: Router,
               private route:ActivatedRoute) {}
 
+  ngOnInit(){
+    this.subscription = this.mealsService.meals$.subscribe();
+    this.meal$ = this.route.params.pipe(
+        switchMap( param =>{
+          return this.mealsService.getMeal(param.id);
+        })
+    );
+
+  }
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
+  }
   async addMeal(event: Meal) {
     await this.mealsService.addMeal(event);
+    this.backToMeals();
+  }
+
+  async updateMeal(event: Meal){
+    const key = this.route.snapshot.params.id;
+    await this.mealsService.updateMeal(key, event);
     this.backToMeals();
   }
 
