@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MealsService } from 'src/health/shared/services/meals/meals.service';
 
 @Component({
   selector: 'meals',
@@ -10,5 +11,5 @@ import { Component } from '@angular/core';
   `
 })
 export class MealsComponent {
-  constructor() {}
+  constructor(private mealsService:MealsService) {}
 }

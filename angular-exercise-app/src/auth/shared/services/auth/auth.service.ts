@@ -37,6 +37,9 @@ export class AuthService {
   })
   );
 
+  get user(){
+      
+  }
   get authState(){
    return this.af.authState;
   }
