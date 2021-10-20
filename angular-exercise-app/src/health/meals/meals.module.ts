@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 //components
-import {MealFormComponent} from './components/meals/meal.component'
+import {MealFormComponent} from './components/meal-form/meal-form.component'
 // containers
 import { MealsComponent } from './containers/meals/meals.component';
 import { MealComponent } from './containers/meal/meal.component';
