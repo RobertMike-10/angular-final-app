@@ -9,7 +9,7 @@ import { Store } from 'store';
 export interface Workout{
     name:string,
     type:string, //endurance | strenght
-    strenght:any,
+    strength:any,
     endurance:any,
     timeStamp?: number,
     $key:string,
@@ -45,7 +45,7 @@ export class WorkoutsService{
                            let obj:Workout ={$key:workout.key,
                                              name:workout.data.name,
                                              type:workout.data.type,
-                                             strenght:workout.data.strenght,
+                                             strength:workout.data.strength,
                                              endurance:workout.data.endurance};
                            return obj;
                       });

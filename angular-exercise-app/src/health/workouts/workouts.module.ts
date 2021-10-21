@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 //components
 import {WorkoutFormComponent} from './components/workout-form/workout-form.component'
+import {WorkoutTypeComponent} from './components/workout-type/workout-type.component'
 // containers
 import { WorkoutsComponent } from './containers/workouts/workouts.component';
 import { WorkoutComponent } from './containers/workout/workout.component';
@@ -28,7 +29,8 @@ export const ROUTES: Routes = [
   declarations: [
     WorkoutFormComponent,
     WorkoutsComponent,
-    WorkoutComponent
+    WorkoutComponent,
+    WorkoutTypeComponent
   ]
 })
 export class WorkoutsModule {}
