@@ -6,10 +6,10 @@ import { RouterModule } from '@angular/router';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 //services
 import {MealsService} from './services/meals/meals.service'
-
+import {WorkoutsService} from './services/workouts/workouts.service'
 //components
 import {ListItemComponent} from './components/list-item/list-item.component'
-@NgModule({ 
+@NgModule({
   imports: [
     CommonModule,
     RouterModule,
