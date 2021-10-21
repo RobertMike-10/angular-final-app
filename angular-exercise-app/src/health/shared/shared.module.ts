@@ -7,6 +7,10 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 //services
 import {MealsService} from './services/meals/meals.service'
 import {WorkoutsService} from './services/workouts/workouts.service'
+import {ScheduleService} from './services/schedule/schedule.service'
+//pipes
+import {JoinPipe} from './pipes/join.pipe'
+import {WorkoutPipe} from './pipes/workout.pipe'
 //components
 import {ListItemComponent} from './components/list-item/list-item.component'
 @NgModule({
@@ -16,10 +20,14 @@ import {ListItemComponent} from './components/list-item/list-item.component'
     AngularFireDatabaseModule
   ],
   declarations: [
-    ListItemComponent
+    ListItemComponent,
+    JoinPipe,
+    WorkoutPipe
   ],
   exports: [
-    ListItemComponent
+    ListItemComponent,
+    JoinPipe,
+    WorkoutPipe
   ]
 })
 export class SharedModule {

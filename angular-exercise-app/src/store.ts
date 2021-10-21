@@ -1,3 +1,4 @@
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 
@@ -12,6 +13,7 @@ export interface State {
   user: User|undefined,
   meals:Meal[]|undefined,
   workouts:Workout[]|undefined,
+  date:Date|undefined,
   [key: string]: any
 }
 
@@ -19,6 +21,7 @@ const state: State = {
   user: undefined,
   meals:undefined,
   workouts:undefined,
+  date:undefined
 };
 
 export class Store {
