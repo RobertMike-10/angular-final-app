@@ -99,9 +99,9 @@ export class ScheduleService{
             for (const prop of value) {
                 if (!mapped[prop.data.section]) {
                   mapped[prop.data.section] = prop.data;
+                  mapped[prop.data.section].$key = prop.key;
                 }
             };
-
             return mapped as ScheduleItem[];
         }),
        tap((next: any) => this.store.set('schedule', next))
@@ -138,6 +138,7 @@ export class ScheduleService{
   }
 
   private updateSection(key: string, payload: ScheduleItem) {
+    delete payload.$key;
     return this.db.object(`schedule/${this.uid}/${key}`).update(payload);
   }
 

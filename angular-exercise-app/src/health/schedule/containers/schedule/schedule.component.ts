@@ -53,7 +53,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.date$ = this.store.select('date');
     this.schedule$ = this.store.select('schedule');
-    this.selected$ = this.store.select('selected');
+    this.selected$ = this.store.select('selected'); //
     this.list$ = this.store.select('list');
 
     this.subscriptions = [
@@ -80,7 +80,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   assignItem(items: string[]):void {
-    console.log(items);
     this.scheduleService.updateItems(items);
     this.closeAssign();
   }
