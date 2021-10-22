@@ -67,11 +67,11 @@
       cursor: pointer;
       padding: 8px 10px 8px 35px;
       transition: all .2s ease-in-out;
-      background: url(/img/check.svg) no-repeat 8px 9px;
+      background: url(/assets/img/check.svg) no-repeat 8px 9px;
       background-size: 20px 20px;
       border-bottom: 1px solid #d1deeb;
       &.active {
-        background-image: url(/img/check-active.svg);
+        background-image: url(/assets/img/check-active.svg);
       }
       &:last-child {
         border-bottom: 0;

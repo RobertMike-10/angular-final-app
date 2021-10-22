@@ -27,7 +27,9 @@ import { Workout, WorkoutsService } from 'src/health/shared/services/workouts/wo
       <schedule-assign
         *ngIf="open"
         [section]="selected$ | async"
-        [list]="list$ | async">
+        [list]="list$ | async"
+        (update)="assignItem($event)"
+        (cancel)="closeAssign()">
       </schedule-assign>
     </div>
   `
@@ -39,6 +41,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   list$!: Observable<Meal[] | Workout[]>;
   selected$!: Observable<any>;
   subscriptions: Subscription[] = [];
+  open = false;
 
   constructor(
     private store: Store,
@@ -52,12 +55,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.schedule$ = this.store.select('schedule');
     this.selected$ = this.store.select('selected');
     this.list$ = this.store.select('list');
+
     this.subscriptions = [
       this.scheduleService.schedule$.subscribe(),
       this.scheduleService.selected$.subscribe(),
       this.mealsService.meals$.subscribe(),
       this.workoutsService.workouts$.subscribe(),
       this.scheduleService.list$.subscribe(),
+      this.scheduleService.items$.subscribe(),
     ];
   }
 
@@ -65,13 +70,23 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-
   changeDate(date: Date):void {
     this.scheduleService.updateDate(date);
   }
 
   changeSection(event: any):void {
+    this.open = true;
     this.scheduleService.selectSection(event);
+  }
+
+  assignItem(items: string[]):void {
+    console.log(items);
+    this.scheduleService.updateItems(items);
+    this.closeAssign();
+  }
+
+  closeAssign():void {
+    this.open = false;
   }
 
 }

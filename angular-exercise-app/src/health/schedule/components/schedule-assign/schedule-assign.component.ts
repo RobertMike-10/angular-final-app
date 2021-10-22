@@ -26,12 +26,12 @@ import { Workout } from '../../../shared/services/workouts/workouts.service';
         <div class="schedule-assign__list">
           <span
             class="schedule-assign__empty"
-            *ngIf="!list?.length">
+            *ngIf="!myList?.length || myList?.length===0">
             <img src="/assets/img/face.svg">
             Nothing here to assign
           </span>
           <div
-            *ngFor="let item of list"
+            *ngFor="let item of myList"
             [class.active]="exists(item.name)"
             (click)="toggleItem(item.name)">
             {{ item.name }}
@@ -61,12 +61,16 @@ export class ScheduleAssignComponent implements OnInit {
 
   private selected: string[] = [];
 
+  myList!: any[];
   @Input()
   section: any;
 
 
   @Input()
-  list!: Meal[] | Workout[] | null;
+  set list(list: Meal[] | Workout[] |null){
+    this.myList= list as any[];
+  };
+
 
   @Output()
   update = new EventEmitter<any>();
@@ -79,9 +83,9 @@ export class ScheduleAssignComponent implements OnInit {
   }
 
   toggleItem(name: string) {
-    if (this.exists(name)) {
+    if (this.exists(name)) { //return the array without item
       this.selected = this.selected.filter(item => item !== name);
-    } else {
+    } else { //ad item
       this.selected = [...this.selected, name];
     }
   }
@@ -90,10 +94,11 @@ export class ScheduleAssignComponent implements OnInit {
     return [`../${name}/new`];
   }
 
-  exists(name: string) {
+  exists(name: string):boolean {
     return !!~this.selected.indexOf(name);
   }
 
+  //assing list of wokouts or meals
   updateAssign() {
     this.update.emit({
       [this.section.type]: this.selected
