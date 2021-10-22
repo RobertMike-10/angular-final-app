@@ -31,13 +31,11 @@ export class MealsService{
               this.meals$=(this.db.list<Meal>(`meals/${this.uid}`).snapshotChanges() as any)
                   .pipe(
 
-                    map((items:any) => {             // <== new way of chaining
-                        return items.map((a:any) => {
+                    map((items:any) => items.map((a:any) => {
                           const data = a.payload.val();
                           const key = a.payload.key;
                           return {key, data};           // or {key, ...data} in case data is Obj
-                        });
-                    }),
+                        })),
                     tap((next:any) =>{
                        const meals:Meal[] = next.map((meal:any) => {
                            let obj:Meal ={$key:meal.key,name:meal.data.name, ingredients:meal.data.ingredients };

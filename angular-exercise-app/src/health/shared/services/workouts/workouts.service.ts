@@ -23,7 +23,6 @@ export class WorkoutsService{
     uid!:string;
     workouts$!:Observable<Workout[]>
 
-
     constructor(private store:Store,
         private db:AngularFireDatabase,
         private authService: AuthService){
@@ -33,13 +32,11 @@ export class WorkoutsService{
               this.workouts$=(this.db.list<Workout>(`workouts/${this.uid}`).snapshotChanges() as any)
                   .pipe(
 
-                    map((items:any) => {             // <== new way of chaining
-                        return items.map((a:any) => {
+                    map((items:any) => items.map((a:any) => {
                           const data = a.payload.val();
                           const key = a.payload.key;
                           return {key, data};           // or {key, ...data} in case data is Obj
-                        });
-                    }),
+                        })),
                     tap((next:any) =>{
                        const workouts:Workout[] = next.map((workout:any) => {
                            let obj:Workout ={$key:workout.key,

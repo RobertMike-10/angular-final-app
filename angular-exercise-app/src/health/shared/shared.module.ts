@@ -36,7 +36,8 @@ export class SharedModule {
           ngModule: SharedModule,
           providers: [
             MealsService,
-            WorkoutsService
+            WorkoutsService,
+            ScheduleService
           ]
         };
       }

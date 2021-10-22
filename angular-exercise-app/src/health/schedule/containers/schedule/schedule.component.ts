@@ -4,9 +4,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Subscription } from 'rxjs';
 
+
 //store and services
 import { Store } from 'store';
-import { ScheduleService } from '../../../shared/services/schedule/schedule.service';
+import { ScheduleItem, ScheduleList, ScheduleService } from '../../../shared/services/schedule/schedule.service';
+import { Meal,MealsService } from 'src/health/shared/services/meals/meals.service';
+import { Workout, WorkoutsService } from 'src/health/shared/services/workouts/workouts.service';
 
 @Component({
   selector: 'schedule',
@@ -16,26 +19,45 @@ import { ScheduleService } from '../../../shared/services/schedule/schedule.serv
 
       <schedule-calendar
         [date]="date$  | async"
-        (change)="changeDate($event)">
+        [items]="schedule$ | async"
+        (change)="changeDate($event)"
+        (select)="changeSection($event)">
       </schedule-calendar>
 
+      <schedule-assign
+        *ngIf="open"
+        [section]="selected$ | async"
+        [list]="list$ | async">
+      </schedule-assign>
     </div>
   `
 })
 export class ScheduleComponent implements OnInit, OnDestroy {
 
   date$!: Observable<Date>;
+  schedule$!: Observable<ScheduleItem[]>;
+  list$!: Observable<Meal[] | Workout[]>;
+  selected$!: Observable<any>;
   subscriptions: Subscription[] = [];
 
   constructor(
     private store: Store,
-    private scheduleService: ScheduleService
+    private scheduleService: ScheduleService,
+    private mealsService: MealsService,
+    private workoutsService: WorkoutsService,
   ) {}
 
   ngOnInit() {
     this.date$ = this.store.select('date');
+    this.schedule$ = this.store.select('schedule');
+    this.selected$ = this.store.select('selected');
+    this.list$ = this.store.select('list');
     this.subscriptions = [
       this.scheduleService.schedule$.subscribe(),
+      this.scheduleService.selected$.subscribe(),
+      this.mealsService.meals$.subscribe(),
+      this.workoutsService.workouts$.subscribe(),
+      this.scheduleService.list$.subscribe(),
     ];
   }
 
@@ -44,8 +66,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
 
-  changeDate(date: Date) {
+  changeDate(date: Date):void {
     this.scheduleService.updateDate(date);
+  }
+
+  changeSection(event: any):void {
+    this.scheduleService.selectSection(event);
   }
 
 }
